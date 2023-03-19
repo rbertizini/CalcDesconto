@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Calculadora</title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <a href="#" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <img src="image/logo.png" width=60px">
+            </a>
+
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 link-secondary">Calculadora</a></li>
+            </ul>
+
+            <div class="col-md-3 text-end">
+            </div>
+        </header>
+    </div>
+
+    <div class="container">
+        <div class="alert alert-danger" role="alert" id="InfoErro">
+            <span id="MensErro">Mensagem de erro</span>
+        </div>
+
+        <div class="alert alert-success" role="alert" id="InfoErro">
+            Valores
+        </div>
+
+        <form class="row g-3">
+            <div class="col-md-3">
+                <label for="lbValorUnit" class="form-label">Valor da sessão individual</label>
+                <input type="number" class="form-control" id="VlrUnit" placeholder="0">
+            </div>
+            <div class="col-md-3">
+                <label for="lbQtdSem" class="form-label">Quantidade de semanas</label>
+                <input type="number" class="form-control" id="QtdSem" placeholder="0">
+            </div>
+            <div class="col-md-3">
+                <label for="lbQtdSem" class="form-label">Quantidade de sessões por semana</label>
+                <input type="number" class="form-control" id="QtdSes" placeholder="0">
+            </div>
+            <div class="col-md-3">
+                <label for="lbDesc" class="form-label">Porcentagem de desconto</label>
+                <input type="number" class="form-control" id="PorcDesc" placeholder="0">
+            </div>
+        </form>
+
+        <br>
+
+        <div class="row">
+            <div class="d-grid gap-2 col-md-6 text-center">
+                <button type="button" class="btn btn-success" onclick="Calcular();">Calcular</button>
+            </div>
+
+            <div class="d-grid gap-2 col-md-6 text-center">
+                <button type="button" class="btn btn-danger" onclick="Limpar();">Limpar</button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="alert alert-primary" role="alert" id="InfoErro">
+            Individual
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="lbValorUnit" class="form-label">Valor individual sem desconto:</label>&nbsp;<label id="VlrIndNorm" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbQtdSem" class="form-label">Valor individual com desconto:</label>&nbsp;<label id="VlrIndDesc" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbDesc" class="form-label">Diferença:</label>&nbsp;<label id="VlrIndDif" class="form-label"></label>
+            </div>
+        </div>
+
+        <div class="alert alert-primary" role="alert" id="InfoErro">
+            <span id="MensSemanal">Semanal</span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="lbValorUnit" class="form-label">Valor semanal sem desconto:</label>&nbsp;<label id="VlrSemNorm" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbQtdSem" class="form-label">Valor semanal com desconto:</label>&nbsp;<label id="VlrSemDesc" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbDesc" class="form-label">Diferença:</label>&nbsp;<label id="VlrSemDif" class="form-label"></label>
+            </div>
+        </div>
+
+        <div class="alert alert-primary" role="alert" id="InfoErro">
+            Mensal (4 semanas)
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="lbValorUnit" class="form-label">Valor mensal sem desconto (4 sessões):</label>&nbsp;<label id="VlrMenNorm" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbQtdSem" class="form-label">Valor mensal com desconto  (4 sessões):</label>&nbsp;<label id="VlrMenDesc" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbDesc" class="form-label">Diferença:</label>&nbsp;<label id="VlrMenDif" class="form-label"></label>
+            </div>
+        </div>
+
+        <div class="alert alert-primary" role="alert" id="InfoErro">
+            <span id="MensTotal">Total</span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label for="lbValorUnit" class="form-label">Valor total sem desconto:</label>&nbsp;<label id="VlrTotNorm" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbQtdSem" class="form-label">Valor total com desconto:</label>&nbsp;<label id="VlrTotDesc" class="form-label"></label>
+            </div>
+            <div class="col-md-4">
+                <label for="lbDesc" class="form-label">Diferença:</label>&nbsp;<label id="VlrTotDif" class="form-label"></label>
+            </div>
+        </div>
+    </div>
+
+    <!--Script-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js " integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p " crossorigin="anonymous "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js "></script>
+
+    <script type="text/javascript " language="javascript ">
+        /*Função carga da página*/
+        $(document).ready(function() {
+            Limpar();
+        });
+
+        function Limpar() {
+            //Controle de mensagem de erro
+            $('#InfoErro').css('display', 'none');
+
+            //Controle de mensagens
+            $('#MensSemanal').text('Semanal');
+            $('#MensTotal').text('Total');
+
+            //Valores iniciais
+            $('#VlrUnit').val('120');
+            $('#QtdSem').val('8');
+            $('#QtdSes').val('2');
+            $('#PorcDesc').val('10');
+            $('#VlrIndNorm').text('0');
+            $('#VlrIndDesc').text('0');
+            $('#VlrIndDif').text('0');
+            $('#VlrSemNorm').text('0');
+            $('#VlrSemDesc').text('0');
+            $('#VlrSemDif').text('0');
+            $('#VlrMenNorm').text('0');
+            $('#VlrMenDesc').text('0');
+            $('#VlrMenDif').text('0');
+            $('#VlrTotNorm').text('0');
+            $('#VlrTotDesc').text('0');
+            $('#VlrTotDif').text('0');
+        }
+
+        function Calcular() {
+            //Controle de mensagem de erro
+            $('#InfoErro').css('display', 'none');
+
+            //Validação
+            var vlrUnit = $('#VlrUnit').val();
+            if (vlrUnit == '') {
+                $('#MensErro').text('Informe o valor da sessão individual');
+                $('#InfoErro').css('display', 'block');
+                return;
+            }
+
+            var qtdSem = $('#QtdSem').val();
+            if (qtdSem == '') {
+                $('#MensErro').text('Informe a quantidade de semanas');
+                $('#InfoErro').css('display', 'block');
+                return;
+            }
+
+            var qtsSes = $('#QtdSes').val();
+            if (qtsSes == '') {
+                $('#MensErro').text('Informe a quantidade de sessões por semana');
+                $('#InfoErro').css('display', 'block');
+                return;
+            }
+
+            var porcDesc = $('#PorcDesc').val();
+            if (porcDesc == '') {
+                $('#MensErro').text('Informe a porcentagem de desconto');
+                $('#InfoErro').css('display', 'block');
+                return;
+            }
+
+            //Cálculos
+            var vlrIndNorm = vlrUnit;
+            var vlrIndDesc = vlrIndNorm - (vlrIndNorm * (porcDesc / 100));
+            var vlrIndDif = vlrIndNorm - vlrIndDesc;
+
+            $('#VlrIndNorm').text(roundMe(vlrIndNorm));
+            $('#VlrIndDesc').text(roundMe(vlrIndDesc));
+            $('#VlrIndDif').text(roundMe(vlrIndDif));
+
+            var vlrSemNorm = vlrUnit * qtsSes;
+            var vlrSemDesc = vlrSemNorm - (vlrSemNorm * (porcDesc / 100));
+            var vlrSemDif = vlrSemNorm - vlrSemDesc;
+
+            $('#VlrSemNorm').text(roundMe(vlrSemNorm));
+            $('#VlrSemDesc').text(roundMe(vlrSemDesc));
+            $('#VlrSemDif').text(roundMe(vlrSemDif));
+
+            var vlrMenNorm = vlrUnit * qtsSes * 4;
+            var vlrMenDesc = vlrMenNorm - (vlrMenNorm * (porcDesc / 100));
+            var vlrMenDif = vlrMenNorm - vlrMenDesc;
+
+            $('#VlrMenNorm').text(roundMe(vlrMenNorm));
+            $('#VlrMenDesc').text(roundMe(vlrMenDesc));
+            $('#VlrMenDif').text(roundMe(vlrMenDif));
+
+            var vlrTotNorm = vlrUnit * qtsSes * qtdSem;
+            var vlrTotDesc = vlrTotNorm - (vlrTotNorm * (porcDesc / 100));
+            var vlrTotDif = vlrTotNorm - vlrTotDesc;
+
+            $('#VlrTotNorm').text(roundMe(vlrTotNorm));
+            $('#VlrTotDesc').text(roundMe(vlrTotDesc));
+            $('#VlrTotDif').text(roundMe(vlrTotDif));
+
+            //Textos			
+            $('#MensSemanal').text('Semanal (' + qtsSes + ' x por semana)');
+
+            var qtdMes = qtdSem / 4;
+            $('#MensTotal').text('Total (' + qtdMes + ' mês)');
+        }
+
+        function roundMe(n) {
+            var round = (Math.round(n * 100) / 100).toFixed(2);
+            round = round.replace('.', ',');
+            return round;
+        }
+    </script>
+</body>
+
+</html>
